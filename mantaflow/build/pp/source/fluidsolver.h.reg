@@ -1,0 +1,19 @@
+#include "fluidsolver.h"
+PbWrapperRegistry::instance().addClass("Solver", "FluidSolver", "PbClass");
+template<> FluidSolver* fromPy<FluidSolver*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("FluidSolver"))) throw Error("can't convert argument to type 'FluidSolver'"); return dynamic_cast<FluidSolver*>(pbo); }
+template<> PyObject* toPy< FluidSolver >( FluidSolver& v) { if (v.getPyObject()) return v.getPyObject(); FluidSolver* co = new FluidSolver (v); return co->assignNewPyObject("FluidSolver"); }
+int _FluidSolver_FluidSolver (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "FluidSolver::FluidSolver"); { ArgLocker _lock; Vec3i gridSize = _args.get< Vec3i > (0,"gridSize", &_lock); int dim = _args.getOpt< int > (1,"dim", 3, &_lock); int is_debug = _args.getOpt< int > (2,"is_debug", 1, &_lock); obj = new FluidSolver(gridSize, dim, is_debug);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"FluidSolver::FluidSolver"); return 0; } catch(std::exception& e) { pbSetError("FluidSolver::FluidSolver",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("FluidSolver", _FluidSolver_FluidSolver);
+PyObject* _FluidSolver_getGridSize (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FluidSolver*>(_self)->_getGridSize(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FluidSolver", "getGridSize", _FluidSolver_getGridSize);
+PyObject* _FluidSolver_printTimings (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FluidSolver*>(_self)->_printTimings(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FluidSolver", "printTimings", _FluidSolver_printTimings);
+PyObject* _FluidSolver_saveMeanTimings (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FluidSolver*>(_self)->_saveMeanTimings(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FluidSolver", "saveMeanTimings", _FluidSolver_saveMeanTimings);
+PyObject* _FluidSolver_step (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FluidSolver*>(_self)->_step(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FluidSolver", "step", _FluidSolver_step);
+PyObject* _FluidSolver_create (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FluidSolver*>(_self)->_create(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FluidSolver", "create", _FluidSolver_create);
+PbWrapperRegistry::instance().addGetSet("FluidSolver","timestep",_get_FluidSolver_mDt,_set_FluidSolver_mDt);
+PyObject* _get_FluidSolver_mDt(PyObject* self, void* cl) { return d_toPy(fromPy<FluidSolver*>(self)->mDt); }
+int _set_FluidSolver_mDt(PyObject* self, PyObject* val, void* cl) { fromPy<FluidSolver*>(self)->mDt=fromPy<Real >(val); return 0;}

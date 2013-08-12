@@ -1,0 +1,15 @@
+@instance ParticleSystem FlipData _ParticleSystem_FlipData
+#include "flip.h"
+PbWrapperRegistry::instance().addClass("FlipSystem", "FlipSystem", "ParticleSystem<FlipData>");
+template<> FlipSystem* fromPy<FlipSystem*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("FlipSystem"))) throw Error("can't convert argument to type 'FlipSystem'"); return dynamic_cast<FlipSystem*>(pbo); }
+template<> PyObject* toPy< FlipSystem >( FlipSystem& v) { if (v.getPyObject()) return v.getPyObject(); FlipSystem* co = new FlipSystem (v); return co->assignNewPyObject("FlipSystem"); }
+int _FlipSystem_FlipSystem (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "FlipSystem::FlipSystem"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new FlipSystem(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"FlipSystem::FlipSystem"); return 0; } catch(std::exception& e) { pbSetError("FlipSystem::FlipSystem",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("FlipSystem", _FlipSystem_FlipSystem);
+PyObject* _FlipSystem_velocitiesFromGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlipSystem*>(_self)->_velocitiesFromGrid(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlipSystem", "velocitiesFromGrid", _FlipSystem_velocitiesFromGrid);
+PyObject* _FlipSystem_velocitiesToGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlipSystem*>(_self)->_velocitiesToGrid(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlipSystem", "velocitiesToGrid", _FlipSystem_velocitiesToGrid);
+PyObject* _FlipSystem_adjustNumber (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlipSystem*>(_self)->_adjustNumber(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlipSystem", "adjustNumber", _FlipSystem_adjustNumber);
+PyObject* _FlipSystem_markFluidCells (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlipSystem*>(_self)->_markFluidCells(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlipSystem", "markFluidCells", _FlipSystem_markFluidCells);

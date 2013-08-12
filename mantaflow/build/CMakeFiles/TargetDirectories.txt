@@ -1,0 +1,2 @@
+/home/mzhang/mantaflow/build/CMakeFiles/manta.dir
+/home/mzhang/mantaflow/build/CMakeFiles/prep.dir

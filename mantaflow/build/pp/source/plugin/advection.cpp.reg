@@ -1,0 +1,2 @@
+extern PyObject* _plugin_advectSemiLagrange (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "advectSemiLagrange", _plugin_advectSemiLagrange);

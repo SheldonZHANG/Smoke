@@ -1,0 +1,30 @@
+#include "noisefield.h"
+PbWrapperRegistry::instance().addClass("NoiseField", "WaveletNoiseField", "PbClass");
+template<> WaveletNoiseField* fromPy<WaveletNoiseField*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("WaveletNoiseField"))) throw Error("can't convert argument to type 'WaveletNoiseField'"); return dynamic_cast<WaveletNoiseField*>(pbo); }
+template<> PyObject* toPy< WaveletNoiseField >( WaveletNoiseField& v) { if (v.getPyObject()) return v.getPyObject(); WaveletNoiseField* co = new WaveletNoiseField (v); return co->assignNewPyObject("WaveletNoiseField"); }
+int _WaveletNoiseField_WaveletNoiseField (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "WaveletNoiseField::WaveletNoiseField"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new WaveletNoiseField(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"WaveletNoiseField::WaveletNoiseField"); return 0; } catch(std::exception& e) { pbSetError("WaveletNoiseField::WaveletNoiseField",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("WaveletNoiseField", _WaveletNoiseField_WaveletNoiseField);
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","posOffset",_get_WaveletNoiseField_mPosOffset,_set_WaveletNoiseField_mPosOffset);
+PyObject* _get_WaveletNoiseField_mPosOffset(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mPosOffset); }
+int _set_WaveletNoiseField_mPosOffset(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mPosOffset=fromPy<Vec3 >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","posScale",_get_WaveletNoiseField_mPosScale,_set_WaveletNoiseField_mPosScale);
+PyObject* _get_WaveletNoiseField_mPosScale(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mPosScale); }
+int _set_WaveletNoiseField_mPosScale(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mPosScale=fromPy<Vec3 >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","valOffset",_get_WaveletNoiseField_mValOffset,_set_WaveletNoiseField_mValOffset);
+PyObject* _get_WaveletNoiseField_mValOffset(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mValOffset); }
+int _set_WaveletNoiseField_mValOffset(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mValOffset=fromPy<Real >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","valScale",_get_WaveletNoiseField_mValScale,_set_WaveletNoiseField_mValScale);
+PyObject* _get_WaveletNoiseField_mValScale(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mValScale); }
+int _set_WaveletNoiseField_mValScale(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mValScale=fromPy<Real >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","clamp",_get_WaveletNoiseField_mClamp,_set_WaveletNoiseField_mClamp);
+PyObject* _get_WaveletNoiseField_mClamp(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mClamp); }
+int _set_WaveletNoiseField_mClamp(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mClamp=fromPy<bool >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","clampNeg",_get_WaveletNoiseField_mClampNeg,_set_WaveletNoiseField_mClampNeg);
+PyObject* _get_WaveletNoiseField_mClampNeg(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mClampNeg); }
+int _set_WaveletNoiseField_mClampNeg(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mClampNeg=fromPy<Real >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","clampPos",_get_WaveletNoiseField_mClampPos,_set_WaveletNoiseField_mClampPos);
+PyObject* _get_WaveletNoiseField_mClampPos(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mClampPos); }
+int _set_WaveletNoiseField_mClampPos(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mClampPos=fromPy<Real >(val); return 0;}
+PbWrapperRegistry::instance().addGetSet("WaveletNoiseField","timeAnim",_get_WaveletNoiseField_mTimeAnim,_set_WaveletNoiseField_mTimeAnim);
+PyObject* _get_WaveletNoiseField_mTimeAnim(PyObject* self, void* cl) { return d_toPy(fromPy<WaveletNoiseField*>(self)->mTimeAnim); }
+int _set_WaveletNoiseField_mTimeAnim(PyObject* self, PyObject* val, void* cl) { fromPy<WaveletNoiseField*>(self)->mTimeAnim=fromPy<Real >(val); return 0;}

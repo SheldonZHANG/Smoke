@@ -1,0 +1,18 @@
+#include "mesh.h"
+PbWrapperRegistry::instance().addClass("Mesh", "Mesh", "PbClass");
+template<> Mesh* fromPy<Mesh*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Mesh"))) throw Error("can't convert argument to type 'Mesh'"); return dynamic_cast<Mesh*>(pbo); }
+template<> PyObject* toPy< Mesh >( Mesh& v) { if (v.getPyObject()) return v.getPyObject(); Mesh* co = new Mesh (v); return co->assignNewPyObject("Mesh"); }
+int _Mesh_Mesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Mesh::Mesh"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new Mesh(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Mesh::Mesh"); return 0; } catch(std::exception& e) { pbSetError("Mesh::Mesh",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Mesh", _Mesh_Mesh);
+PyObject* _Mesh_load (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_load(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "load", _Mesh_load);
+PyObject* _Mesh_fromShape (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_fromShape(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "fromShape", _Mesh_fromShape);
+PyObject* _Mesh_save (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_save(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "save", _Mesh_save);
+PyObject* _Mesh_advectInGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_advectInGrid(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "advectInGrid", _Mesh_advectInGrid);
+PyObject* _Mesh_scale (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_scale(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "scale", _Mesh_scale);
+PyObject* _Mesh_offset (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Mesh*>(_self)->_offset(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Mesh", "offset", _Mesh_offset);

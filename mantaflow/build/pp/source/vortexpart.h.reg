@@ -1,0 +1,11 @@
+@instance ParticleSystem VortexParticleData _ParticleSystem_VortexParticleData
+#include "vortexpart.h"
+PbWrapperRegistry::instance().addClass("VortexParticleSystem", "VortexParticleSystem", "ParticleSystem<VortexParticleData>");
+template<> VortexParticleSystem* fromPy<VortexParticleSystem*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("VortexParticleSystem"))) throw Error("can't convert argument to type 'VortexParticleSystem'"); return dynamic_cast<VortexParticleSystem*>(pbo); }
+template<> PyObject* toPy< VortexParticleSystem >( VortexParticleSystem& v) { if (v.getPyObject()) return v.getPyObject(); VortexParticleSystem* co = new VortexParticleSystem (v); return co->assignNewPyObject("VortexParticleSystem"); }
+int _VortexParticleSystem_VortexParticleSystem (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "VortexParticleSystem::VortexParticleSystem"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new VortexParticleSystem(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"VortexParticleSystem::VortexParticleSystem"); return 0; } catch(std::exception& e) { pbSetError("VortexParticleSystem::VortexParticleSystem",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("VortexParticleSystem", _VortexParticleSystem_VortexParticleSystem);
+PyObject* _VortexParticleSystem_advectSelf (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexParticleSystem*>(_self)->_advectSelf(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexParticleSystem", "advectSelf", _VortexParticleSystem_advectSelf);
+PyObject* _VortexParticleSystem_applyToMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexParticleSystem*>(_self)->_applyToMesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexParticleSystem", "applyToMesh", _VortexParticleSystem_applyToMesh);

@@ -1,0 +1,34 @@
+#include "customctrl.h"
+PbWrapperRegistry::instance().addClass("CustomControl", "CustomControl", "PbClass");
+template<> CustomControl* fromPy<CustomControl*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("CustomControl"))) throw Error("can't convert argument to type 'CustomControl'"); return dynamic_cast<CustomControl*>(pbo); }
+template<> PyObject* toPy< CustomControl >( CustomControl& v) { if (v.getPyObject()) return v.getPyObject(); CustomControl* co = new CustomControl (v); return co->assignNewPyObject("CustomControl"); }
+int _CustomControl_CustomControl (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "CustomControl::CustomControl"); { ArgLocker _lock; obj = new CustomControl();std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"CustomControl::CustomControl"); return 0; } catch(std::exception& e) { pbSetError("CustomControl::CustomControl",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("CustomControl", _CustomControl_CustomControl);
+#include "customctrl.h"
+PbWrapperRegistry::instance().addClass("Slider", "CustomSlider", "CustomControl");
+template<> CustomSlider* fromPy<CustomSlider*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("CustomSlider"))) throw Error("can't convert argument to type 'CustomSlider'"); return dynamic_cast<CustomSlider*>(pbo); }
+template<> PyObject* toPy< CustomSlider >( CustomSlider& v) { if (v.getPyObject()) return v.getPyObject(); CustomSlider* co = new CustomSlider (v); return co->assignNewPyObject("CustomSlider"); }
+int _CustomSlider_CustomSlider (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "CustomSlider::CustomSlider"); { ArgLocker _lock; std::string text = _args.get< std::string > (0,"text", &_lock); float val = _args.get< float > (1,"val", &_lock); float min = _args.get< float > (2,"min", &_lock); float max = _args.get< float > (3,"max", &_lock); obj = new CustomSlider(text, val, min, max);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"CustomSlider::CustomSlider"); return 0; } catch(std::exception& e) { pbSetError("CustomSlider::CustomSlider",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("CustomSlider", _CustomSlider_CustomSlider);
+PyObject* _CustomSlider_get (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<CustomSlider*>(_self)->_get(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("CustomSlider", "get", _CustomSlider_get);
+PyObject* _CustomSlider_set (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<CustomSlider*>(_self)->_set(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("CustomSlider", "set", _CustomSlider_set);
+#include "customctrl.h"
+PbWrapperRegistry::instance().addClass("Gui", "Gui", "PbClass");
+template<> Gui* fromPy<Gui*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Gui"))) throw Error("can't convert argument to type 'Gui'"); return dynamic_cast<Gui*>(pbo); }
+template<> PyObject* toPy< Gui >( Gui& v) { if (v.getPyObject()) return v.getPyObject(); Gui* co = new Gui (v); return co->assignNewPyObject("Gui"); }
+int _Gui_Gui (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Gui::Gui"); { ArgLocker _lock; obj = new Gui();std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Gui::Gui"); return 0; } catch(std::exception& e) { pbSetError("Gui::Gui",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Gui", _Gui_Gui);
+PyObject* _Gui_setBackgroundMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_setBackgroundMesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "setBackgroundMesh", _Gui_setBackgroundMesh);
+PyObject* _Gui_show (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_show(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "show", _Gui_show);
+PyObject* _Gui_update (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_update(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "update", _Gui_update);
+PyObject* _Gui_pause (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_pause(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "pause", _Gui_pause);
+PyObject* _Gui_addControl (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_addControl(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "addControl", _Gui_addControl);
+PyObject* _Gui_screenshot (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Gui*>(_self)->_screenshot(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Gui", "screenshot", _Gui_screenshot);

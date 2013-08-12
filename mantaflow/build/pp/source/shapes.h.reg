@@ -1,0 +1,44 @@
+#include "shapes.h"
+PbWrapperRegistry::instance().addClass("Shape", "Shape", "PbClass");
+template<> Shape* fromPy<Shape*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Shape"))) throw Error("can't convert argument to type 'Shape'"); return dynamic_cast<Shape*>(pbo); }
+template<> PyObject* toPy< Shape >( Shape& v) { if (v.getPyObject()) return v.getPyObject(); Shape* co = new Shape (v); return co->assignNewPyObject("Shape"); }
+int _Shape_Shape (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Shape::Shape"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new Shape(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Shape::Shape"); return 0; } catch(std::exception& e) { pbSetError("Shape::Shape",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Shape", _Shape_Shape);
+PyObject* _Shape_applyToGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Shape*>(_self)->_applyToGrid(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Shape", "applyToGrid", _Shape_applyToGrid);
+PyObject* _Shape_applyToGridSmooth (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Shape*>(_self)->_applyToGridSmooth(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Shape", "applyToGridSmooth", _Shape_applyToGridSmooth);
+PyObject* _Shape_computeLevelset (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Shape*>(_self)->_computeLevelset(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Shape", "computeLevelset", _Shape_computeLevelset);
+PyObject* _Shape_collideMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Shape*>(_self)->_collideMesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Shape", "collideMesh", _Shape_collideMesh);
+#include "shapes.h"
+PbWrapperRegistry::instance().addClass("NullShape", "NullShape", "Shape");
+template<> NullShape* fromPy<NullShape*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("NullShape"))) throw Error("can't convert argument to type 'NullShape'"); return dynamic_cast<NullShape*>(pbo); }
+template<> PyObject* toPy< NullShape >( NullShape& v) { if (v.getPyObject()) return v.getPyObject(); NullShape* co = new NullShape (v); return co->assignNewPyObject("NullShape"); }
+int _NullShape_NullShape (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "NullShape::NullShape"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new NullShape(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"NullShape::NullShape"); return 0; } catch(std::exception& e) { pbSetError("NullShape::NullShape",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("NullShape", _NullShape_NullShape);
+#include "shapes.h"
+PbWrapperRegistry::instance().addClass("Box", "Box", "Shape");
+template<> Box* fromPy<Box*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Box"))) throw Error("can't convert argument to type 'Box'"); return dynamic_cast<Box*>(pbo); }
+template<> PyObject* toPy< Box >( Box& v) { if (v.getPyObject()) return v.getPyObject(); Box* co = new Box (v); return co->assignNewPyObject("Box"); }
+int _Box_Box (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Box::Box"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); Vec3 center = _args.getOpt< Vec3 > (1,"center", Vec3::Invalid, &_lock); Vec3 p0 = _args.getOpt< Vec3 > (2,"p0", Vec3::Invalid, &_lock); Vec3 p1 = _args.getOpt< Vec3 > (3,"p1", Vec3::Invalid, &_lock); Vec3 size = _args.getOpt< Vec3 > (4,"size", Vec3::Invalid, &_lock); obj = new Box(parent, center, p0, p1, size);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Box::Box"); return 0; } catch(std::exception& e) { pbSetError("Box::Box",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Box", _Box_Box);
+#include "shapes.h"
+PbWrapperRegistry::instance().addClass("Sphere", "Sphere", "Shape");
+template<> Sphere* fromPy<Sphere*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Sphere"))) throw Error("can't convert argument to type 'Sphere'"); return dynamic_cast<Sphere*>(pbo); }
+template<> PyObject* toPy< Sphere >( Sphere& v) { if (v.getPyObject()) return v.getPyObject(); Sphere* co = new Sphere (v); return co->assignNewPyObject("Sphere"); }
+int _Sphere_Sphere (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Sphere::Sphere"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); Vec3 center = _args.get< Vec3 > (1,"center", &_lock); Real radius = _args.get< Real > (2,"radius", &_lock); Vec3 scale = _args.getOpt< Vec3 > (3,"scale", Vec3(1,1,1), &_lock); obj = new Sphere(parent, center, radius, scale);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Sphere::Sphere"); return 0; } catch(std::exception& e) { pbSetError("Sphere::Sphere",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Sphere", _Sphere_Sphere);
+#include "shapes.h"
+PbWrapperRegistry::instance().addClass("Cylinder", "Cylinder", "Shape");
+template<> Cylinder* fromPy<Cylinder*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("Cylinder"))) throw Error("can't convert argument to type 'Cylinder'"); return dynamic_cast<Cylinder*>(pbo); }
+template<> PyObject* toPy< Cylinder >( Cylinder& v) { if (v.getPyObject()) return v.getPyObject(); Cylinder* co = new Cylinder (v); return co->assignNewPyObject("Cylinder"); }
+int _Cylinder_Cylinder (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Cylinder::Cylinder"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); Vec3 center = _args.get< Vec3 > (1,"center", &_lock); Real radius = _args.get< Real > (2,"radius", &_lock); Vec3 z = _args.get< Vec3 > (3,"z", &_lock); obj = new Cylinder(parent, center, radius, z);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Cylinder::Cylinder"); return 0; } catch(std::exception& e) { pbSetError("Cylinder::Cylinder",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("Cylinder", _Cylinder_Cylinder);
+PyObject* _Cylinder_setCenter (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Cylinder*>(_self)->_setCenter(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Cylinder", "setCenter", _Cylinder_setCenter);
+PyObject* _Cylinder_setRadius (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Cylinder*>(_self)->_setRadius(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Cylinder", "setRadius", _Cylinder_setRadius);
+PyObject* _Cylinder_setZ (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<Cylinder*>(_self)->_setZ(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("Cylinder", "setZ", _Cylinder_setZ);

@@ -1,0 +1,39 @@
+@instance ConnectedParticleSystem BasicParticleData,VortexRing _ConnectedParticleSystem_BasicParticleData_VortexRing
+#include "vortexfilament.h"
+PbWrapperRegistry::instance().addClass("VortexFilamentSystem", "VortexFilamentSystem", "ConnectedParticleSystem<BasicParticleData,VortexRing>");
+template<> VortexFilamentSystem* fromPy<VortexFilamentSystem*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("VortexFilamentSystem"))) throw Error("can't convert argument to type 'VortexFilamentSystem'"); return dynamic_cast<VortexFilamentSystem*>(pbo); }
+template<> PyObject* toPy< VortexFilamentSystem >( VortexFilamentSystem& v) { if (v.getPyObject()) return v.getPyObject(); VortexFilamentSystem* co = new VortexFilamentSystem (v); return co->assignNewPyObject("VortexFilamentSystem"); }
+int _VortexFilamentSystem_VortexFilamentSystem (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "VortexFilamentSystem::VortexFilamentSystem"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new VortexFilamentSystem(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"VortexFilamentSystem::VortexFilamentSystem"); return 0; } catch(std::exception& e) { pbSetError("VortexFilamentSystem::VortexFilamentSystem",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("VortexFilamentSystem", _VortexFilamentSystem_VortexFilamentSystem);
+PyObject* _VortexFilamentSystem_advectSelf (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_advectSelf(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "advectSelf", _VortexFilamentSystem_advectSelf);
+PyObject* _VortexFilamentSystem_advectParticles (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_advectParticles(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "advectParticles", _VortexFilamentSystem_advectParticles);
+PyObject* _VortexFilamentSystem_advectMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_advectMesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "advectMesh", _VortexFilamentSystem_advectMesh);
+PyObject* _VortexFilamentSystem_doublyDiscreteUpdate (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_doublyDiscreteUpdate(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "doublyDiscreteUpdate", _VortexFilamentSystem_doublyDiscreteUpdate);
+PyObject* _VortexFilamentSystem_remesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_remesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "remesh", _VortexFilamentSystem_remesh);
+PyObject* _VortexFilamentSystem_split_ring (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_split_ring(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "split_ring", _VortexFilamentSystem_split_ring);
+PyObject* _VortexFilamentSystem_reconnect_ring (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_reconnect_ring(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "reconnect_ring", _VortexFilamentSystem_reconnect_ring);
+PyObject* _VortexFilamentSystem_merge_adj_edge (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_merge_adj_edge(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "merge_adj_edge", _VortexFilamentSystem_merge_adj_edge);
+PyObject* _VortexFilamentSystem_divide_ring (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_divide_ring(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "divide_ring", _VortexFilamentSystem_divide_ring);
+PyObject* _VortexFilamentSystem_reset_dirty (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_reset_dirty(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "reset_dirty", _VortexFilamentSystem_reset_dirty);
+PyObject* _VortexFilamentSystem_Debug_fun (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_Debug_fun(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "Debug_fun", _VortexFilamentSystem_Debug_fun);
+PyObject* _VortexFilamentSystem_revise_circulation (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_revise_circulation(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "revise_circulation", _VortexFilamentSystem_revise_circulation);
+PyObject* _VortexFilamentSystem_Decimate_ring (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_Decimate_ring(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "Decimate_ring", _VortexFilamentSystem_Decimate_ring);
+PyObject* _VortexFilamentSystem_Direct_motion (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_Direct_motion(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "Direct_motion", _VortexFilamentSystem_Direct_motion);
+PyObject* _VortexFilamentSystem_addRing (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_addRing(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "addRing", _VortexFilamentSystem_addRing);
+PyObject* _VortexFilamentSystem_addLine (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexFilamentSystem*>(_self)->_addLine(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexFilamentSystem", "addLine", _VortexFilamentSystem_addLine);

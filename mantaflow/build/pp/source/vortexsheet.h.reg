@@ -1,0 +1,12 @@
+#include "vortexsheet.h"
+PbWrapperRegistry::instance().addClass("VortexSheetMesh", "VortexSheetMesh", "Mesh");
+template<> VortexSheetMesh* fromPy<VortexSheetMesh*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("VortexSheetMesh"))) throw Error("can't convert argument to type 'VortexSheetMesh'"); return dynamic_cast<VortexSheetMesh*>(pbo); }
+template<> PyObject* toPy< VortexSheetMesh >( VortexSheetMesh& v) { if (v.getPyObject()) return v.getPyObject(); VortexSheetMesh* co = new VortexSheetMesh (v); return co->assignNewPyObject("VortexSheetMesh"); }
+int _VortexSheetMesh_VortexSheetMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "VortexSheetMesh::VortexSheetMesh"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new VortexSheetMesh(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"VortexSheetMesh::VortexSheetMesh"); return 0; } catch(std::exception& e) { pbSetError("VortexSheetMesh::VortexSheetMesh",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("VortexSheetMesh", _VortexSheetMesh_VortexSheetMesh);
+PyObject* _VortexSheetMesh_calcCirculation (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexSheetMesh*>(_self)->_calcCirculation(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexSheetMesh", "calcCirculation", _VortexSheetMesh_calcCirculation);
+PyObject* _VortexSheetMesh_calcVorticity (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexSheetMesh*>(_self)->_calcVorticity(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexSheetMesh", "calcVorticity", _VortexSheetMesh_calcVorticity);
+PyObject* _VortexSheetMesh_reinitTexCoords (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<VortexSheetMesh*>(_self)->_reinitTexCoords(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("VortexSheetMesh", "reinitTexCoords", _VortexSheetMesh_reinitTexCoords);

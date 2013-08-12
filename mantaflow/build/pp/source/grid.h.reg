@@ -1,0 +1,45 @@
+#include "grid.h"
+PbWrapperRegistry::instance().addClass("GridBase", "GridBase", "PbClass");
+template<> GridBase* fromPy<GridBase*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("GridBase"))) throw Error("can't convert argument to type 'GridBase'"); return dynamic_cast<GridBase*>(pbo); }
+template<> PyObject* toPy< GridBase >( GridBase& v) { if (v.getPyObject()) return v.getPyObject(); GridBase* co = new GridBase (v); return co->assignNewPyObject("GridBase"); }
+int _GridBase_GridBase (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "GridBase::GridBase"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); obj = new GridBase(parent);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"GridBase::GridBase"); return 0; } catch(std::exception& e) { pbSetError("GridBase::GridBase",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("GridBase", _GridBase_GridBase);
+#include "grid.h"
+@template Grid PbWrapperRegistry::instance().addClass("@", "Grid<$$>", "GridBase");
+@template Grid int _Grid@_Grid@ (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "Grid::Grid"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); bool show = _args.getOpt< bool > (1,"show", true, &_lock); obj = new Grid<$$> (parent, show);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"Grid::Grid"); return 0; } catch(std::exception& e) { pbSetError("Grid::Grid",e.what()); return -1; } } 
+@template Grid PbWrapperRegistry::instance().addConstructor("Grid<$$>", _Grid@_Grid@);
+@template Grid PyObject* _Grid@_save (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return dynamic_cast<Grid<$$>*>(PbClass::fromPyObject(_self))->_save(_self, _linargs, _kwds); }
+@template Grid PbWrapperRegistry::instance().addMethod("Grid<$$>", "save", _Grid@_save);
+@template Grid PyObject* _Grid@_load (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return dynamic_cast<Grid<$$>*>(PbClass::fromPyObject(_self))->_load(_self, _linargs, _kwds); }
+@template Grid PbWrapperRegistry::instance().addMethod("Grid<$$>", "load", _Grid@_load);
+@template Grid PyObject* _Grid@_add (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return dynamic_cast<Grid<$$>*>(PbClass::fromPyObject(_self))->_add(_self, _linargs, _kwds); }
+@template Grid PbWrapperRegistry::instance().addMethod("Grid<$$>", "add", _Grid@_add);
+@template Grid PyObject* _Grid@_scale (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return dynamic_cast<Grid<$$>*>(PbClass::fromPyObject(_self))->_scale(_self, _linargs, _kwds); }
+@template Grid PbWrapperRegistry::instance().addMethod("Grid<$$>", "scale", _Grid@_scale);
+@template Grid PyObject* _Grid@_copyFrom (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return dynamic_cast<Grid<$$>*>(PbClass::fromPyObject(_self))->_copyFrom(_self, _linargs, _kwds); }
+@template Grid PbWrapperRegistry::instance().addMethod("Grid<$$>", "copyFrom", _Grid@_copyFrom);
+@instance Grid int IntGrid
+@instance Grid Real RealGrid
+@instance Grid Vec3 VecGrid
+@instance Grid Vec3 _Grid_Vec3
+#include "grid.h"
+PbWrapperRegistry::instance().addClass("MACGrid", "MACGrid", "Grid<Vec3>");
+template<> MACGrid* fromPy<MACGrid*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("MACGrid"))) throw Error("can't convert argument to type 'MACGrid'"); return dynamic_cast<MACGrid*>(pbo); }
+template<> PyObject* toPy< MACGrid >( MACGrid& v) { if (v.getPyObject()) return v.getPyObject(); MACGrid* co = new MACGrid (v); return co->assignNewPyObject("MACGrid"); }
+int _MACGrid_MACGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "MACGrid::MACGrid"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); bool show = _args.getOpt< bool > (1,"show", true, &_lock); obj = new MACGrid(parent, show);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"MACGrid::MACGrid"); return 0; } catch(std::exception& e) { pbSetError("MACGrid::MACGrid",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("MACGrid", _MACGrid_MACGrid);
+@instance Grid int _Grid_int
+#include "grid.h"
+PbWrapperRegistry::instance().addClass("FlagGrid", "FlagGrid", "Grid<int>");
+template<> FlagGrid* fromPy<FlagGrid*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("FlagGrid"))) throw Error("can't convert argument to type 'FlagGrid'"); return dynamic_cast<FlagGrid*>(pbo); }
+template<> PyObject* toPy< FlagGrid >( FlagGrid& v) { if (v.getPyObject()) return v.getPyObject(); FlagGrid* co = new FlagGrid (v); return co->assignNewPyObject("FlagGrid"); }
+int _FlagGrid_FlagGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "FlagGrid::FlagGrid"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); int dim = _args.getOpt< int > (1,"dim", 3, &_lock); bool show = _args.getOpt< bool > (2,"show", true, &_lock); obj = new FlagGrid(parent, dim, show);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"FlagGrid::FlagGrid"); return 0; } catch(std::exception& e) { pbSetError("FlagGrid::FlagGrid",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("FlagGrid", _FlagGrid_FlagGrid);
+PyObject* _FlagGrid_initDomain (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlagGrid*>(_self)->_initDomain(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlagGrid", "initDomain", _FlagGrid_initDomain);
+PyObject* _FlagGrid_initBoundaries (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlagGrid*>(_self)->_initBoundaries(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlagGrid", "initBoundaries", _FlagGrid_initBoundaries);
+PyObject* _FlagGrid_updateFromLevelset (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlagGrid*>(_self)->_updateFromLevelset(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlagGrid", "updateFromLevelset", _FlagGrid_updateFromLevelset);
+PyObject* _FlagGrid_fillGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<FlagGrid*>(_self)->_fillGrid(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("FlagGrid", "fillGrid", _FlagGrid_fillGrid);

@@ -1,0 +1,10 @@
+extern PyObject* _plugin_addGravity (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "addGravity", _plugin_addGravity);
+extern PyObject* _plugin_addBuoyancy (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "addBuoyancy", _plugin_addBuoyancy);
+extern PyObject* _plugin_setWallBcs (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "setWallBcs", _plugin_setWallBcs);
+extern PyObject* _plugin_setLiquidBcs (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "setLiquidBcs", _plugin_setLiquidBcs);
+extern PyObject* _plugin_vorticityConfinement (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "vorticityConfinement", _plugin_vorticityConfinement);

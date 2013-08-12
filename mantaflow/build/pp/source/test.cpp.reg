@@ -1,0 +1,10 @@
+extern PyObject* _plugin_testp (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "testp", _plugin_testp);
+extern PyObject* _plugin_checkGrids (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "checkGrids", _plugin_checkGrids);
+extern PyObject* _plugin_kernelTest (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "kernelTest", _plugin_kernelTest);
+extern PyObject* _plugin_getCurl (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "getCurl", _plugin_getCurl);
+extern PyObject* _plugin_setinflow (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "setinflow", _plugin_setinflow);

@@ -1,0 +1,15 @@
+@instance Grid Real _Grid_Real
+#include "levelset.h"
+PbWrapperRegistry::instance().addClass("LevelsetGrid", "LevelsetGrid", "Grid<Real>");
+template<> LevelsetGrid* fromPy<LevelsetGrid*>(PyObject* obj) { if (PbClass::isNullRef(obj)) return 0; PbClass* pbo = PbClass::fromPyObject(obj); if (!pbo || !(pbo->canConvertTo("LevelsetGrid"))) throw Error("can't convert argument to type 'LevelsetGrid'"); return dynamic_cast<LevelsetGrid*>(pbo); }
+template<> PyObject* toPy< LevelsetGrid >( LevelsetGrid& v) { if (v.getPyObject()) return v.getPyObject(); LevelsetGrid* co = new LevelsetGrid (v); return co->assignNewPyObject("LevelsetGrid"); }
+int _LevelsetGrid_LevelsetGrid (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { PbClass* obj = PbClass::fromPyObject(_self); if (obj) delete obj; try { PbArgs _args(_linargs, _kwds); pbPreparePlugin(0, "LevelsetGrid::LevelsetGrid"); { ArgLocker _lock; FluidSolver* parent = _args.get< FluidSolver* > (0,"parent", &_lock); bool show = _args.getOpt< bool > (1,"show", true, &_lock); obj = new LevelsetGrid(parent, show);std::string _name = _args.getOpt<std::string>("name",""); obj->setPyObject(_self); if (!_name.empty()) obj->setName(_name); _args.check(); } pbFinalizePlugin(obj->getParent(),"LevelsetGrid::LevelsetGrid"); return 0; } catch(std::exception& e) { pbSetError("LevelsetGrid::LevelsetGrid",e.what()); return -1; } } 
+PbWrapperRegistry::instance().addConstructor("LevelsetGrid", _LevelsetGrid_LevelsetGrid);
+PyObject* _LevelsetGrid_reinitMarching (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<LevelsetGrid*>(_self)->_reinitMarching(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("LevelsetGrid", "reinitMarching", _LevelsetGrid_reinitMarching);
+PyObject* _LevelsetGrid_createMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<LevelsetGrid*>(_self)->_createMesh(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("LevelsetGrid", "createMesh", _LevelsetGrid_createMesh);
+PyObject* _LevelsetGrid_join (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<LevelsetGrid*>(_self)->_join(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("LevelsetGrid", "join", _LevelsetGrid_join);
+PyObject* _LevelsetGrid_initFromFlags (PyObject* _self, PyObject* _linargs, PyObject* _kwds) { return fromPy<LevelsetGrid*>(_self)->_initFromFlags(_self, _linargs, _kwds); }
+PbWrapperRegistry::instance().addMethod("LevelsetGrid", "initFromFlags", _LevelsetGrid_initFromFlags);

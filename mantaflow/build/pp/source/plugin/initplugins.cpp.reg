@@ -1,0 +1,2 @@
+extern PyObject* _plugin_densityInflow (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "densityInflow", _plugin_densityInflow);

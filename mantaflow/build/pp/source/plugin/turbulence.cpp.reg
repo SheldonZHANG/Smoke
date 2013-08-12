@@ -1,0 +1,12 @@
+extern PyObject* _plugin_KEpsilonComputeProduction (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonComputeProduction", _plugin_KEpsilonComputeProduction);
+extern PyObject* _plugin_KEpsilonSources (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonSources", _plugin_KEpsilonSources);
+extern PyObject* _plugin_KEpsilonSourcesMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonSourcesMesh", _plugin_KEpsilonSourcesMesh);
+extern PyObject* _plugin_KEpsilonInit (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonInit", _plugin_KEpsilonInit);
+extern PyObject* _plugin_KEpsilonInitMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonInitMesh", _plugin_KEpsilonInitMesh);
+extern PyObject* _plugin_KEpsilonGradientDiffusion (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "KEpsilonGradientDiffusion", _plugin_KEpsilonGradientDiffusion);

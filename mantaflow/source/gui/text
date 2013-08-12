@@ -1,0 +1,54 @@
+Hi, Nils,
+   Thanks for your reply.
+   It seems that i did not get my question clearly over to you. Actually, my question is : because in the code, you use the filaments related algorithm for smoke simulation..After running 
+   these algorithms, we get the simulated data or frame, like the geometric position of these particles in the filaments. And then we send these data to the GUI part to paint. I know how you draw these partices ( done by function called paint()), but i do not know how you pass these data to GUI components. because if we want to visualized these filaments, we should pass them to the GUI (actually to the MainWnd class)
+   In the mantaflow/source/gui/MainWnd.cpp, you create several painters, like MeshPainter and ParticlePainter, into the class member mPainter. However, this is the initialization of these painters without any actual data from the filaments.
+   
+   what's more, in the /mantaflow/scenes/filaments.py, the programme could visualize the filaments and the mesh, but could not visualize the tracer particles even i modified the following code in void ParticlePainter::paint()
+       if(mLocal->getType() == ParticleBase::TRACER) {
+        cout<<"sheldon's comments drawing TRACER"<<endl;
+        TracerParticleSystem* vp = (TracerParticleSystem*) mLocal;
+        glPointSize(3.0);
+        for(int i=0; i<(int)vp->size(); i++) {
+            Vec3 pos = (*vp)[i].pos;
+            
+            //glColor3f((*vp)[i].color.x,(*vp)[i].color.y,(*vp)[i].color.z);
+            glColor3f(0,0,1);
+            glBegin(GL_POINTS);
+            glVertex(pos, dx);
+            glEnd();
+        }        
+        glPointSize(1.0);
+    } 
+
+
+in the mantaflow/scenes/filaments.py, we initialize the variable filaments.
+in the mantaflow/gui/mainwindow.cpp, the constructor 
+MainWnd::MainWnd() : mPaused(false), mRequestPause(false), mRequestClose(false), mStep(0), QMainWindow(0)
+{
+
+    // here the constructor initialize several painters (GridPainter,MeshPainter,ParticlePainter)...However, if we want to draw the mesh or filaments, we have to get their 
+    //data and pass them to MainWnd.... I searched the whole project and didn't find such a process of data transmitting.
+    GridPainter<int>* intPainter = new GridPainter<int>(NULL, this);     
+    mPainter.push_back(new GridPainter<Real>((FlagGrid**)intPainter->getGridPtr(), this));    
+    mPainter.push_back(new GridPainter<Vec3>(NULL, this));    
+
+    mPainter.push_back(intPainter);
+    MeshPainter* ptr = new MeshPainter(this);
+    mPainter.push_back(new ParticlePainter(intPainter, this));
+    mPainter.push_back(ptr);    
+    connect(this, SIGNAL(setBackgroundMesh(Mesh*)), ptr, SLOT(setBackgroundMesh(Mesh*)));
+    for (int i=0; i<(int)mPainter.size(); i++) {
+    //Here you connect the signal (**paintSub(),and this signal is emitted in function void GLWidget::paintGL()**) to function paint(). It is the paint() function which   actually carries out the painting job.
+        connect(mGlWidget, SIGNAL(paintSub()), mPainter[i], SLOT(paint())); 
+        connect(mGlWidget, SIGNAL(painterEvent(int, int)), mPainter[i], SLOT(doEvent(int, int)));
+        connect(this, SIGNAL(painterEvent(int, int)), mPainter[i], SLOT(doEvent(int, int)));
+        connect(mPainter[i], SIGNAL(setViewport(const Vec3i&)), mGlWidget, SLOT(setViewport(const Vec3i&)));
+        mPainter[i]->attachWidget(mPainterLayout);
+    }
+}
+
+This is my logical backtrace of the painting process:
+(1) In the function void ParticlePainter::paint(), the programme draws objects using ParticlePainter::mLocal, which is a clone of LockedObjPainter::mObject.
+(2) LockedObjPainter::mObject is obtained by calling function LockedObjPainter::nextObject()
+(3) LockedObjPainter::nextObject() calls function PbClass::getInstance()

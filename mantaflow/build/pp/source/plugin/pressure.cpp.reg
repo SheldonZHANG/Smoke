@@ -1,0 +1,2 @@
+extern PyObject* _plugin_solvePressure (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "solvePressure", _plugin_solvePressure);

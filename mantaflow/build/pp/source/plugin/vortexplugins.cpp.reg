@@ -1,0 +1,16 @@
+extern PyObject* _plugin_markAsFixed (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "markAsFixed", _plugin_markAsFixed);
+extern PyObject* _plugin_texcoordInflow (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "texcoordInflow", _plugin_texcoordInflow);
+extern PyObject* _plugin_meshSmokeInflow (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "meshSmokeInflow", _plugin_meshSmokeInflow);
+extern PyObject* _plugin_vorticitySource (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "vorticitySource", _plugin_vorticitySource);
+extern PyObject* _plugin_smoothVorticity (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "smoothVorticity", _plugin_smoothVorticity);
+extern PyObject* _plugin_VPseedK41 (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "VPseedK41", _plugin_VPseedK41);
+extern PyObject* _plugin_VICintegration (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "VICintegration", _plugin_VICintegration);
+extern PyObject* _plugin_densityFromLevelset (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "densityFromLevelset", _plugin_densityFromLevelset);

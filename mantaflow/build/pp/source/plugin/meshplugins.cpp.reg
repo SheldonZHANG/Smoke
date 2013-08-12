@@ -1,0 +1,6 @@
+extern PyObject* _plugin_smoothMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "smoothMesh", _plugin_smoothMesh);
+extern PyObject* _plugin_subdivideMesh (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "subdivideMesh", _plugin_subdivideMesh);
+extern PyObject* _plugin_killSmallComponents (PyObject* _self, PyObject* _linargs, PyObject* _kwds);
+PbWrapperRegistry::instance().addMethod("", "killSmallComponents", _plugin_killSmallComponents);

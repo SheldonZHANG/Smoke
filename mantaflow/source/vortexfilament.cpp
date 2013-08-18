@@ -27,6 +27,7 @@ void VortexRing::renumber(int *_renumber) {
     for (size_t i=0; i<indices.size(); i++)
         indices[i] = _renumber[indices[i]];
 }
+int my_cnter=0;
 
 inline Vec3 FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, const vector<BasicParticleData>& fp, Real reg, Real cutoff, Real scale) {
     const Real strength = 0.25 / M_PI * scale; //In one paper, it seems that strength is a user-input
@@ -70,6 +71,7 @@ inline Vec3 FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, con
             }
             const Vec3 res1=dot(r1,r1-r0)*cross(r1,r1-r0)/sqrt(a2+r1_2)/(normSquare(r1-r0)*a2+normSquare(cross(r1,r1-r0)));
             const Vec3 res0=dot(r0,r1-r0)*cross(r0,r1-r0)/sqrt(a2+r0_2)/(normSquare(r1-r0)*a2+normSquare(cross(r0,r1-r0)));
+            //if(my_cnter>3000) cout<<res0<<"  "<<res1;
             u+=str*(res1-res0);
             //const Real res1=dot(r1,r0-r1)/r1n/(a2*normSquare(r1-r0)+normSquare(cross(r1,(r0-r1))));
             //const Real res0=dot(r0,r0-r1)/r0n/(a2*normSquare(r1-r0)+normSquare(cross(r0,(r0-r1))));
@@ -82,6 +84,7 @@ inline Vec3 FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, con
             u += A * cp;*/
         }
     }
+    cout<<u<<endl;
     return u;
 }
 inline Vec3 Direct_FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, const vector<BasicParticleData>& fp, Real reg, Real cutoff, Real scale) {
@@ -183,21 +186,94 @@ void VortexFilamentSystem::advectParticles(TracerParticleSystem& sys, Real scale
     cerr<<"******Exit VortexFilamentSystem::advectParticles(TracerParticleSystem "<<endl;
     std::vector<BasicParticleData> particle_pos=sys.getData();
     int size=old_pos.size();
-    /*if(to_debug)
+    if(to_debug)
     for(int i=0;i<size;i++)
         {
             //cout<<sys.getType()<<endl; //ERROR From here we could get that the Type is PARTICLE rather than TRACER
             //cout<<particle_pos[i].pos<<"  "<<old_pos[i].pos<<endl;
             Vec3 a=particle_pos[i].pos-old_pos[i].pos;
             float x=abs(a.max());
-            //if(x>0.0002||abs(a.min())>0.0002)
-                //cout<<"motion"<<endl;
-             //   else
-                    //cout<<"nomotion"<<endl;
+            if(x>0.0002||abs(a.min())>0.0002)
+                cout<<"motion"<<endl;
+                else
+                {
+                    my_cnter++;
+                    cout<<"nomotion"<<endl;
+                    }
         }
-    cout<<endl;*/
+    cout<<endl;
 }
 
+void  VortexFilamentSystem::cyclic_interpolate(int index,double avg_edge_length)
+{
+    cout<<"Enter cyclic_interpolate"<<endl;
+    vector<int> new_index;
+    VortexRing& r=mSegments[index];
+    int old_size=r.indices.size();
+    Real total_length=0;
+    for(int i=0;i<old_size;i++)
+       total_length+=sqrt(normSquare(mData[r.idx1(i)].pos-mData[r.idx0(i)].pos));
+    int new_size=total_length/avg_edge_length;
+    Real interval=total_length/new_size;
+    int sub=0;
+    Real prv_len=0.0;
+    Real nxt_len=0.0;
+    Real eps=0.000001;
+    new_index.push_back(add(BasicParticleData(mData[r.idx0(0)].pos)));
+    for(int i=0;i<old_size;i++)
+    {
+        Real len=sqrt(normSquare(mData[r.idx1(i)].pos-mData[r.idx0(i)].pos));
+        prv_len=nxt_len;
+        nxt_len+=len;
+        if(nxt_len<(sub+1)*interval)
+        {
+            continue;
+        }
+        while((sub+1)*interval<=nxt_len)
+        {
+            Vec3 pos;
+            Real t=(((sub+1)*interval-prv_len)/len+1.0*i)/old_size;
+
+            for(int j=0;j<old_size;j++)
+            {
+                if(abs(t-j/old_size)<eps)
+                    pos+=mData[r.idx0(j)].pos/old_size;
+                else
+                    pos+=mData[r.idx0(j)].pos*sin(old_size*M_PI*(t-1.0*j/old_size))/(1.0*old_size*sin(M_PI*(t-1.0*j/old_size)));
+
+            }
+            sub++;
+            new_index.push_back(add(BasicParticleData(pos)));
+        }
+    }    
+    for(int j=0;j<old_size;j++)
+        mData[r.idx1(j)].flag|=PDELETE; 
+    r.indices.resize(new_size);
+    for(int i=0;i<new_size;i++)
+        r.indices[i]=new_index[i];
+    cout<<"exit cyclic_interpolate"<<endl;
+}
+void VortexFilamentSystem::resample_ring(Real max_edge_length,Real avg_edge_length,int num_of_edge)
+{
+    cout<<"Enter resample_ring"<<endl;
+    int seg_size=segSize();
+    for(int i=0;i<seg_size;i++)
+    {
+        VortexRing& r=mSegments[i];
+        int size=r.indices.size();
+        if(size%2==1)
+        {
+            cyclic_interpolate(i,num_of_edge);
+        }
+        else
+            {
+                cout<<"Even number of edges "<<endl;
+                exit(0);
+            }
+    }
+    compress();
+    cout<<"Exit resample_ring"<<endl;
+}
 
 void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold){
     cout<<"Enter split function"<<endl;
@@ -207,9 +283,7 @@ void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold)
         int size=r.size();
         for(int j=0;j<size;j++){
             bool mark=false;
-            for(int offset=1;offset<size;offset++){
-                int k=j+offset; 
-                if(k%size==j) continue;
+            for(int k=1+j;k<size;k++){
                 const Vec3 fir=mData[r.idx1(j)].pos-mData[r.idx0(j)].pos;
                 const Vec3 mid1=(mData[r.idx1(j)].pos+mData[r.idx0(j)].pos)/2;
                 const Vec3 sec=mData[r.idx1(k)].pos-mData[r.idx0(k)].pos;
@@ -220,8 +294,9 @@ void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold)
                 const Real dist1=normSquare(cross(mid1-mData[r.idx0(k)].pos,sec))/normSquare(sec); 
                 const Real dist2=normSquare(cross(mid2-mData[r.idx0(j)].pos,fir))/normSquare(fir);
                 Real dist=(sqrt(dist1)+sqrt(dist2))/2;
-                if(normSquare(mid1-mid2)<dist_threshold*dist_threshold)
-                   dist=sqrt(normSquare(mid1-mid2)); 
+                dist=min(dist,sqrt(normSquare(mid1-mid2)));
+                //if(normSquare(mid1-mid2)<dist_threshold*dist_threshold)
+                //   dist=sqrt(normSquare(mid1-mid2)); 
                 if(dist>dist_threshold)
                     continue;
                 //if(((k-j)>5&&(size-k+j)>5)==false)
@@ -458,7 +533,7 @@ void VortexFilamentSystem::divide_ring(Real avg_edge_length,Real max_edge_length
     for(int i=0;i<seg_size;i++)
     {
         VortexRing& r=mSegments[i];
-        const int oldLen=r.size();
+        const int oldLen=r.indices.size();
         std::vector<int> new_index;
         for(int j=0;j<oldLen;j++)
         {
@@ -466,6 +541,7 @@ void VortexFilamentSystem::divide_ring(Real avg_edge_length,Real max_edge_length
             const Vec3 p0=mData[r.idx0(j)].pos;
             const Vec3 p1=mData[r.idx1(j)].pos;
             const Real dist=sqrt(normSquare(p1-p0));
+            if(dirty_edge.size()<i+1) continue;
             if(dirty_edge[i].find(r.idx0(j))==dirty_edge[i].end()&&dist>max_edge_length)
             {
                 const Vec3 dif=p1-p0;
@@ -479,7 +555,11 @@ void VortexFilamentSystem::divide_ring(Real avg_edge_length,Real max_edge_length
             }
 
         }
-        r.indices=new_index; 
+        int new_size=new_index.size();
+        r.indices.resize(new_size);
+        for(int k=0;k<new_size;k++)
+            r.indices[k]=new_index[k];
+        //r.indices=new_index; 
     }
 }
 void VortexFilamentSystem::merge_adj_edge(Real cosine_threshold,double max_edge_length){
@@ -507,7 +587,7 @@ void VortexFilamentSystem::merge_adj_edge(Real cosine_threshold,double max_edge_
                 newLen--;
                 dirty_edge[sub].insert(i);
             }
-            else if(cosine_res>cosine_threshold||distance<max_edge_length){
+            else if(cosine_res>cosine_threshold&&distance<max_edge_length){
                 mData[r.idx1(i)].flag|=PDELETE; 
                 mark[(i+1)%oldLen]=true;
                 newLen--;

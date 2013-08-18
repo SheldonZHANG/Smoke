@@ -84,7 +84,6 @@ inline Vec3 FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, con
             u += A * cp;*/
         }
     }
-    cout<<u<<endl;
     return u;
 }
 inline Vec3 Direct_FilamentKernel(const Vec3& pos, const vector<VortexRing>& rings, const vector<BasicParticleData>& fp, Real reg, Real cutoff, Real scale) {
@@ -204,16 +203,21 @@ void VortexFilamentSystem::advectParticles(TracerParticleSystem& sys, Real scale
     cout<<endl;
 }
 
-void  VortexFilamentSystem::cyclic_interpolate(int index,double avg_edge_length)
+void  VortexFilamentSystem::cyclic_interpolate(int index,double avg_edge_length,int max_num_of_edge)
 {
     cout<<"Enter cyclic_interpolate"<<endl;
     vector<int> new_index;
     VortexRing& r=mSegments[index];
     int old_size=r.indices.size();
-    Real total_length=0;
+    double total_length=0;
     for(int i=0;i<old_size;i++)
        total_length+=sqrt(normSquare(mData[r.idx1(i)].pos-mData[r.idx0(i)].pos));
-    int new_size=total_length/avg_edge_length;
+    double ratio=total_length/avg_edge_length;
+    int new_size=(int)ratio; 
+    if(new_size%2==0)
+        new_size++;
+    new_size=min(new_size,max_num_of_edge);
+    cout<<"new_size "<<new_size<<"  "<<total_length<<"  "<<avg_edge_length<<" old_size "<<old_size<<endl;
     Real interval=total_length/new_size;
     int sub=0;
     Real prv_len=0.0;
@@ -253,7 +257,7 @@ void  VortexFilamentSystem::cyclic_interpolate(int index,double avg_edge_length)
         r.indices[i]=new_index[i];
     cout<<"exit cyclic_interpolate"<<endl;
 }
-void VortexFilamentSystem::resample_ring(Real max_edge_length,Real avg_edge_length,int num_of_edge)
+void VortexFilamentSystem::resample_ring(Real max_edge_length,Real avg_edge_length,int max_num_of_edge)
 {
     cout<<"Enter resample_ring"<<endl;
     int seg_size=segSize();
@@ -263,7 +267,7 @@ void VortexFilamentSystem::resample_ring(Real max_edge_length,Real avg_edge_leng
         int size=r.indices.size();
         if(size%2==1)
         {
-            cyclic_interpolate(i,num_of_edge);
+            cyclic_interpolate(i,avg_edge_length,max_num_of_edge);
         }
         else
             {
@@ -275,7 +279,7 @@ void VortexFilamentSystem::resample_ring(Real max_edge_length,Real avg_edge_leng
     cout<<"Exit resample_ring"<<endl;
 }
 
-void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold){
+void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold,int min_num_of_edge){
     cout<<"Enter split function"<<endl;
     int seg_size=segSize();
     for(int i=0;i<seg_size;i++){
@@ -283,7 +287,7 @@ void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold)
         int size=r.size();
         for(int j=0;j<size;j++){
             bool mark=false;
-            for(int k=1+j;k<size;k++){
+            for(int k=min_num_of_edge+j;k<size;k++){
                 const Vec3 fir=mData[r.idx1(j)].pos-mData[r.idx0(j)].pos;
                 const Vec3 mid1=(mData[r.idx1(j)].pos+mData[r.idx0(j)].pos)/2;
                 const Vec3 sec=mData[r.idx1(k)].pos-mData[r.idx0(k)].pos;
@@ -308,16 +312,21 @@ void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold)
                 new_ring.isClosed=true;
                 for(int sub=k+1;sub<=size+j;sub++)
                     new_ring.indices.push_back(r.indices[sub%size]);
-                new_ring.indices.push_back(add(BasicParticleData(mid1)));
-                new_ring.indices.push_back(add(BasicParticleData(mid2)));
-                
-                for(int sub=0;sub<=(k-j-1);sub++)
+                if(new_ring.indices.size()%2==0)
+                    new_ring.indices.push_back(add(BasicParticleData((mData[r.idx0(j)].pos+mData[r.idx1(k)].pos)/2)));
+                //new_ring.indices.push_back(add(BasicParticleData(mid1)));
+                //new_ring.indices.push_back(add(BasicParticleData(mid2)));
+
+                if(index1.size()%2==0)
+                    index1.push_back(add(BasicParticleData((mData[r.idx1(j)].pos+mData[r.idx0(k)].pos)/2)));
+                int index1_size=index1.size(); 
+                for(int sub=0;sub<index1_size;sub++)
                     r.indices[sub]=index1[sub];
-                if(r.indices.size()<k-j+2)
-                    r.indices.resize(k-j+2);
-                r.indices[k-j]=add(BasicParticleData(mid2));
-                r.indices[k-j+1]=add(BasicParticleData(mid1));
-                r.indices.resize(k-j);
+                r.indices.resize(index1.size());
+
+                //r.indices[k-j]=add(BasicParticleData(mid2));
+                //r.indices[k-j+1]=add(BasicParticleData(mid1));
+                //r.indices.resize(k-j);
                 mSegments.push_back(new_ring); 
                 dirty.insert(mSegments.size());
                 dirty.insert(i); 

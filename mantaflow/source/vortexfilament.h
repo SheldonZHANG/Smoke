@@ -67,7 +67,7 @@ public:
     //! remesh long or strongly-curved segments
     PYTHON void remesh(Real maxLen=3.0, Real minLen=1.0);
     //! split the filaments 
-    PYTHON void split_ring(Real cosine_threshold=-1.0,Real dist_threshold=0.0);
+    PYTHON void split_ring(Real cosine_threshold,Real dist_threshold,int min_num_of_edge);
     //! reconnect the filaments
     PYTHON void reconnect_ring(const Real cosine_threshold,const Real dist_threshold);
     //! hairpin removal
@@ -91,9 +91,9 @@ public:
     //!Decimate rings with number of edges less than num_edge_threshold
     PYTHON void Decimate_ring(int num_edge_threshold,double min_circum_threshold,double max_circum_threshold);
     //!cyclic interploation
-    void cyclic_interpolate(int index,double avg_edge_length);
+    void cyclic_interpolate(int index,double avg_edge_length,int max_num_of_edge);
     //!resample ring 
-    PYTHON void resample_ring(Real max_edge_length,Real avg_edge_length,int num_of_edge);
+    PYTHON void resample_ring(Real max_edge_length,Real avg_edge_length,int max_num_of_edge);
     //!Direct the motion of filament
     PYTHON void Direct_motion(Real scale,Real regularization,int integrationMode);
 

@@ -41,8 +41,10 @@ if (GUI):
 
 r = 0.17
 scale = 1
-number_seg=40
-cosine_threshold=0.85
+number_seg=41
+min_num_edge=number_seg/5
+max_num_edge=4*number_seg
+cosine_threshold=0.9
 ring_radius=res*0.13
 theta = random.gauss(0,0.01*pi)
 phi = random.gauss(0,0.01*pi)
@@ -61,11 +63,11 @@ for t in range(1000):
     #n = vec3(sin(theta)*cos(phi), cos(theta), sin(theta)*sin(phi))
     #filaments.addRing(position=gs*vec3(0.5,0.14,0.5),circulation=random.uniform(60,60),radius=res*random.gauss(r,0.01),normal=n,number=3)
     
-    if t%2==0:
+    if t %2==0:
         theta = random.gauss(0,0.01*pi)
         phi = random.gauss(0,0.01*pi)
         n = vec3(sin(theta)*cos(phi), cos(theta), sin(theta)*sin(phi))
-        filaments.addRing(position=gs*vec3(0.5,0.09,0.5),circulation=random.uniform(14,15),radius=ring_radius,normal=n,number=number_seg)
+        filaments.addRing(position=gs*vec3(0.5,0.09,0.5),circulation=random.uniform(14,45),radius=ring_radius,normal=n,number=number_seg)
 
 
     # seed tracer particles
@@ -94,18 +96,20 @@ for t in range(1000):
 
 
 
-    filaments.advectParticles(sys=tracer, scale=1, regularization=1, integrationMode=IntRK2)
+    filaments.advectParticles(sys=tracer, scale=1, regularization=2, integrationMode=IntRK4)
     if t>0:
         filaments.advectSelf(scale=1, regularization=2, integrationMode=IntRK4)
     #if t%2==0:
     #    filaments.Direct_motion(scale=1,regularization=2,integrationMode=IntRK4)
 
 
-    filaments.doublyDiscreteUpdate(regularization=2)
-    filaments.Decimate_ring(4,number_seg*edge_length/5,5*number_seg*edge_length);
-    filaments.split_ring(-cosine_threshold+0.2,edge_length/1)
-    filaments.merge_adj_edge(0.99)
-    #filaments.divide_ring(edge_length*2,edge_length*5);
+    #filaments.doublyDiscreteUpdate(regularization=2)
+    #filaments.Decimate_ring(min_num_edge,min_num_edge*edge_length,max_num_edge*edge_length)
+    #filaments.split_ring(-cosine_threshold,edge_length/2)
+    max_edge_length=3*edge_length;
+    #filaments.merge_adj_edge(cosine_threshold,max_edge_length)
+    #filaments.divide_ring(edge_length*2,max_edge_length);
+    filaments.resample_ring(max_edge_length,edge_length,number_seg);
 
     #filaments.reconnect_ring(-cosine_threshold,edge_length/3)
     filaments.reset_dirty()

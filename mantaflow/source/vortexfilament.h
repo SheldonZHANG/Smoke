@@ -71,8 +71,8 @@ public:
     //! reconnect the filaments
     PYTHON void reconnect_ring(const Real cosine_threshold,const Real dist_threshold);
     //! hairpin removal
-    PYTHON void merge_adj_edge(Real cosine_threshold=0.8);
-    PYTHON void divide_ring(Real edge_length,Real dist_threshold);
+    PYTHON void merge_adj_edge(Real cosine_threshold,double max_edge_length);
+    PYTHON void divide_ring(Real avg_edge_length,Real dist_threshold);
     //!merge two rings filaments
     bool merge_ring(int fir,int sec,const Real cosine_threshold,const Real dist_threshold);
     //! reset the dirty 
@@ -90,6 +90,10 @@ public:
     PYTHON void revise_circulation();
     //!Decimate rings with number of edges less than num_edge_threshold
     PYTHON void Decimate_ring(int num_edge_threshold,double min_circum_threshold,double max_circum_threshold);
+    //!cyclic interploation
+    void cyclic_interpolate(int index,double avg_edge_length);
+    //!resample ring 
+    PYTHON void resample_ring(Real max_edge_length,Real avg_edge_length,int num_of_edge);
     //!Direct the motion of filament
     PYTHON void Direct_motion(Real scale,Real regularization,int integrationMode);
 

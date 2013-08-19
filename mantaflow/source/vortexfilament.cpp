@@ -305,30 +305,20 @@ void VortexFilamentSystem::split_ring(Real cosine_threshold,Real dist_threshold,
                     continue;
                 //if(((k-j)>5&&(size-k+j)>5)==false)
                 //    continue;
-                vector<int> index1;
                 for(int sub=j+1;sub<=k;sub++)
-                    index1.push_back(r.indices[sub]);
-                VortexRing new_ring;
-                new_ring.isClosed=true;
+                {
+                    mData[r.idx0(sub)].flag|=PDELETE;
+                }
+                vector<int> new_index;
                 for(int sub=k+1;sub<=size+j;sub++)
-                    new_ring.indices.push_back(r.indices[sub%size]);
-                if(new_ring.indices.size()%2==0)
-                    new_ring.indices.push_back(add(BasicParticleData((mData[r.idx0(j)].pos+mData[r.idx1(k)].pos)/2)));
-                //new_ring.indices.push_back(add(BasicParticleData(mid1)));
-                //new_ring.indices.push_back(add(BasicParticleData(mid2)));
-
-                if(index1.size()%2==0)
-                    index1.push_back(add(BasicParticleData((mData[r.idx1(j)].pos+mData[r.idx0(k)].pos)/2)));
-                int index1_size=index1.size(); 
+                    new_index.push_back(r.indices[sub%size]);
+                if(new_index.size()%2==0)
+                    new_index.push_back(add(BasicParticleData((mData[r.idx0(j)].pos+mData[r.idx1(k)].pos)/2)));
+                int index1_size=new_index.size(); 
                 for(int sub=0;sub<index1_size;sub++)
-                    r.indices[sub]=index1[sub];
-                r.indices.resize(index1.size());
+                    r.indices[sub]=new_index[sub];
+                r.indices.resize(index1_size);
 
-                //r.indices[k-j]=add(BasicParticleData(mid2));
-                //r.indices[k-j+1]=add(BasicParticleData(mid1));
-                //r.indices.resize(k-j);
-                mSegments.push_back(new_ring); 
-                dirty.insert(mSegments.size());
                 dirty.insert(i); 
                 mark=true;
                 break;
@@ -455,13 +445,13 @@ void VortexFilamentSystem::Decimate_ring(int num_edge_threshold,double min_circu
                 for(int j=0;j<num_edge;j++)
                     mData[ring.idx0(j)].flag|=PDELETE;
             }
-            else if(circum>max_circum_threshold)
+            /*else if(circum>max_circum_threshold)
             {
                 mark[i]=true;
                 new_size--;
                 for(int j=0;j<num_edge;j++)
                     mData[ring.idx0(j)].flag|=PDELETE;
-            }
+            }*/
         }
         if(ring.isClosed==false)
         {
